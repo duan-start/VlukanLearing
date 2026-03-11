@@ -1,0 +1,37 @@
+# 编译输出
+build/
+bin/
+obj/
+out/
+x64/
+vendor/
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# Visual Studio
+.vs/
+*.vcxproj*
+*.sln
+*.user
+*.pdb
+*.idb
+
+# VSCode
+.vscode/
+
+# Makefile
+*.o
+*.a
+*.so
+*.exe
+*.dll
+*.lib
+
+# macOS
+.DS_Store
+
+# Linux
+*.swp
