@@ -7,10 +7,10 @@
 int main(int argc,char* argv) {
     glfwInit();
 
-    // 不使用 OpenGL
+    // 不使用 OpenGL，并不需要显示指定glfw和vulkan之间的关系
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
+   
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan Window", nullptr, nullptr);
     VulKan::Init();
     while (!glfwWindowShouldClose(window)) {
