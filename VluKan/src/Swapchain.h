@@ -27,6 +27,10 @@ namespace VulKan {
 		};
 		//获取显卡支持的信息
 		void QueryInfo(uint32_t w, uint32_t h);
+
+		void GetImages();
+		void SetImageViews();
+
 	private:
 		SwapchainInfo m_SwapChainInfo;
 

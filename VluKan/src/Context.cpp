@@ -22,7 +22,12 @@ namespace VulKan {
 	}
 	Context::~Context()
 	{
+		m_swapChain.reset();
+
+		m_device.destroy();
+		m_vkIns.destroySurfaceKHR(m_surface);
 		m_vkIns.destroy();
+
 	}
 	Context::Context(CreatSurfaceFunc func) {
 		//先设置（创建）上下文实例

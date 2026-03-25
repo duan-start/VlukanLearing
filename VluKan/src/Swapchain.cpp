@@ -41,10 +41,22 @@ namespace VulKan {
 		}
 		m_SwapChain = Context::GetInstance().GetDevice().createSwapchainKHR(createInfo);
 
+		//SetImages
+		GetImages();
+		SetImageViews();
+
 	}
 	SwapChain::~SwapChain()
 	{
+		for (auto& view : m_ImageViews) {
+			Context::GetInstance().GetDevice().destroyImageView(view);
+		}
+		for (auto& image : m_Images) {
+			Context::GetInstance().GetDevice().destroyImage(image);
+		}
+
 		Context::GetInstance().GetDevice().destroySwapchainKHR(m_SwapChain);
+		
 	}
 	void SwapChain::QueryInfo(uint32_t w, uint32_t h)
 	{
@@ -86,6 +98,34 @@ namespace VulKan {
 			}
 		}
 
-
 	}
+	void SwapChain::GetImages()
+	{
+		m_Images = Context::GetInstance().GetDevice().getSwapchainImagesKHR(m_SwapChain);
+	}
+
+	void SwapChain::SetImageViews()
+	{
+		m_ImageViews.resize(m_Images.size());
+		//SetImageViews
+		for (int i = 0; i < m_Images.size(); i++) {
+			vk::ImageViewCreateInfo createInfo{};
+			//ÉèÖÃÓ³Éä¹ØÏµ
+			vk::ComponentMapping mapping;
+			vk::ImageSubresourceRange range;
+
+			range.setBaseMipLevel(0)
+				.setLevelCount(1)
+				.setBaseArrayLayer(0)
+				.setLayerCount(1)
+				.setAspectMask(vk::ImageAspectFlagBits::eColor);
+			createInfo.setImage(m_Images[i])
+				.setViewType(vk::ImageViewType::e2D)
+				.setComponents(mapping)
+				.setFormat(m_SwapChainInfo.format.format)
+				.setSubresourceRange(range);
+			m_ImageViews[i] = Context::GetInstance().GetDevice().createImageView(createInfo);
+		}
+	}
+
 }
