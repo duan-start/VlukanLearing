@@ -10,8 +10,8 @@ namespace VulKan {
 	class Context final
 	{
 	public:
-		using CreatSurfaceFunc = std::function<vk::SurfaceKHR(vk::Instance&)>;
 
+		using CreatSurfaceFunc = std::function<vk::SurfaceKHR(vk::Instance&)>;
 		static void Init(CreatSurfaceFunc func);
 		static void Quit();
 		void InitSwapChain(uint32_t w, uint32_t h);

@@ -17,34 +17,38 @@ int main(int argc,char* argv) {
     uint32_t extensionCount = 0;
     const char** extensions = glfwGetRequiredInstanceExtensions(&extensionCount);
 
-    VulKan::Context::Init([&](vk::Instance& vkIns)->vk::SurfaceKHR {
+    //Init
+    {
+        VulKan::Context::Init([&](vk::Instance& vkIns)->vk::SurfaceKHR {
 
-        vk::ApplicationInfo appInfo;
-        //设置vk版本，反正我的很新
-        appInfo.setApiVersion(VK_API_VERSION_1_0);
-        const char* layerExtensions[] = { "VK_LAYER_KHRONOS_validation" };
+            vk::ApplicationInfo appInfo;
+            //设置vk版本，反正我的很新
+            appInfo.setApiVersion(VK_API_VERSION_1_2);
+            const char* layerExtensions[] = { "VK_LAYER_KHRONOS_validation" };
 
-        vk::InstanceCreateInfo createInfo;
-        createInfo.setEnabledExtensionCount(extensionCount);
-        createInfo.setPpEnabledExtensionNames(extensions)
-            .setPApplicationInfo(&appInfo)
-            // 关键：必须显式设置 Layer 数量！
-            .setEnabledLayerCount(1)
-            .setPpEnabledLayerNames(layerExtensions);
-        vkIns = vk::createInstance(createInfo);
-        // --- 创建 Surface ---
-        // 虽然使用的是 C++ 风格，但创建 Surface 依然要靠 GLFW 的 C 函数
-        VkSurfaceKHR rawSurface; // 先用 C 句柄接收
+            vk::InstanceCreateInfo createInfo;
+            createInfo.setEnabledExtensionCount(extensionCount);
+            createInfo.setPpEnabledExtensionNames(extensions)
+                .setPApplicationInfo(&appInfo)
+                // 关键：必须显式设置 Layer 数量！
+                .setEnabledLayerCount(1)
+                .setPpEnabledLayerNames(layerExtensions);
+            vkIns = vk::createInstance(createInfo);
+            // --- 创建 Surface ---
+            // 虽然使用的是 C++ 风格，但创建 Surface 依然要靠 GLFW 的 C 函数
+            VkSurfaceKHR rawSurface; // 先用 C 句柄接收
 
-        //surface虽然是靠window创建的，但是里面并没有winodw的handle
-        if (glfwCreateWindowSurface(vkIns, window, nullptr, &rawSurface ) != VK_SUCCESS) 
-            throw std::runtime_error("failed to create window surface!");
+            //surface虽然是靠window创建的，但是里面并没有winodw的handle
+            if (glfwCreateWindowSurface(vkIns, window, nullptr, &rawSurface) != VK_SUCCESS)
+                throw std::runtime_error("failed to create window surface!");
 
-        // --- 返回时自动封装为 C++ 风格对象 vk::SurfaceKHR ---
-        return vk::SurfaceKHR(rawSurface);
-        });
-    VulKan::Context::GetInstance().InitSwapChain(WIDTH, HEIGHT);
+            // --- 返回时自动封装为 C++ 风格对象 vk::SurfaceKHR ---
+            return vk::SurfaceKHR(rawSurface);
+            });
+        VulKan::Context::GetInstance().InitSwapChain(WIDTH, HEIGHT);
 
+        VulKan::Shader::Init(Utils::ReadfromFile("assets/vert.spv"), Utils::ReadfromFile("assets/frag.spv"));
+    }
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();

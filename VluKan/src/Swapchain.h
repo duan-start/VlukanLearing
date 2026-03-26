@@ -4,6 +4,8 @@
 
 namespace VulKan {
 
+
+
 	class SwapChain final
 	{
 	public:
