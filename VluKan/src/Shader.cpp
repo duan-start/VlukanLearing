@@ -9,7 +9,22 @@ namespace VulKan {
        Ins.reset(new Shader(vertexSrc, fragSrc));  
    }  
 
-   VulKan::Shader::~Shader()  
+   void Shader::initSatge()
+   {
+       m_stage_.resize(2);
+       m_stage_[0].setStage(vk::ShaderStageFlagBits::eVertex)
+           .setModule(m_Shader["Vertex"])
+           .setPName("main");
+       m_stage_[1].setStage(vk::ShaderStageFlagBits::eFragment)
+           .setModule(m_Shader["Frag"])
+           .setPName("main");
+
+       for (int i = 0; i < m_stage_.size(); i++) {
+           assert(m_stage_[i].module && "发现空 Shader 模块！检查加载逻辑");
+       }
+   }
+
+   VulKan::Shader::~Shader()
    {  
        const auto& device = Context::GetInstance().GetDevice();
        device.destroyShaderModule(m_Shader["Vertex"]);
@@ -31,7 +46,7 @@ namespace VulKan {
        m_Shader["Frag"] = Context::GetInstance().GetDevice().createShaderModule(createInfo);
 
 
-       
+       initSatge();
 
    }  
 }

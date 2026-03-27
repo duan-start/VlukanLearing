@@ -1,6 +1,7 @@
 #pragma once
 #include "vulkan/vulkan.hpp"
 #include "src/Swapchain.h"
+#include "src/RendererProcess.h"
 #include <memory>
 #include <optional>
 #include <functional>
@@ -15,6 +16,7 @@ namespace VulKan {
 		static void Init(CreatSurfaceFunc func);
 		static void Quit();
 		void InitSwapChain(uint32_t w, uint32_t h);
+		void InitPipeline(uint32_t w, uint32_t h);
 		static Context& GetInstance();
 		~Context();
 
@@ -51,13 +53,16 @@ namespace VulKan {
 		vk::Device m_device;
 		vk::Queue m_grahicQueue;
 		vk::Queue m_PresentQueue;
-
+		
 		QueueFmaile m_QueueFamilyInex;
 		//surface khr(渲染到窗口)[绑定vkimage 和窗口]
 		vk::SurfaceKHR m_surface;
 
 		//swapChain
 		std::unique_ptr<SwapChain> m_swapChain;
+
+		//Pipeline
+		std::unique_ptr<RendererProcess> m_PipeProcess;
 	};
 }
 

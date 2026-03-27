@@ -48,6 +48,7 @@ int main(int argc,char* argv) {
         VulKan::Context::GetInstance().InitSwapChain(WIDTH, HEIGHT);
 
         VulKan::Shader::Init(Utils::ReadfromFile("assets/vert.spv"), Utils::ReadfromFile("assets/frag.spv"));
+        VulKan::Context::GetInstance().InitPipeline(WIDTH, HEIGHT);
     }
 
     while (!glfwWindowShouldClose(window)) {

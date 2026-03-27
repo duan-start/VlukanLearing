@@ -15,6 +15,11 @@ namespace VulKan {
 	{
 		m_swapChain.reset(new SwapChain(w,h));
 	}
+	void Context::InitPipeline(uint32_t w, uint32_t h)
+	{
+		m_PipeProcess.reset(new RendererProcess());
+		m_PipeProcess->InitRenderPipline(w, h);
+	}
 	;
 	 Context& Context::GetInstance() {
 		if (!Instance) std::cout << "No Instance to use;";
@@ -22,8 +27,8 @@ namespace VulKan {
 	}
 	Context::~Context()
 	{
+		m_PipeProcess.reset();
 		m_swapChain.reset();
-
 		m_device.destroy();
 		m_vkIns.destroySurfaceKHR(m_surface);
 		m_vkIns.destroy();
