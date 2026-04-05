@@ -45,15 +45,24 @@ int main(int argc,char* argv) {
             // --- 返回时自动封装为 C++ 风格对象 vk::SurfaceKHR ---
             return vk::SurfaceKHR(rawSurface);
             });
+
+
         VulKan::Context::GetInstance().InitSwapChain(WIDTH, HEIGHT);
 
         VulKan::Shader::Init(Utils::ReadfromFile("assets/vert.spv"), Utils::ReadfromFile("assets/frag.spv"));
+
+
         VulKan::Context::GetInstance().InitPipeline(WIDTH, HEIGHT);
+
+        VulKan::Context::GetInstance().GetSwapChain().CreateFrameBuffers(WIDTH, HEIGHT);
+        VulKan::Renderer::Init();
     }
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
+        VulKan::Renderer::GetInstance().Render();
     }
+
     VulKan::Context::Quit();
 
 }

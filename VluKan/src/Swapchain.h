@@ -30,15 +30,22 @@ namespace VulKan {
 		//获取显卡支持的信息
 		void QueryInfo(uint32_t w, uint32_t h);
 
+		void CreateFrameBuffers(uint32_t w, uint32_t h);
 		void GetImages();
 		void SetImageViews();
 
+		const std::vector<vk::Framebuffer>& GetFrameBuffer() const { return m_FrameBuffers; }
+		const SwapchainInfo& GetInfo()const { return m_SwapChainInfo; }
+		 vk::SwapchainKHR& GetVKSwapChain() { return m_SwapChain; }
 	private:
 		SwapchainInfo m_SwapChainInfo;
 
 		vk::SwapchainKHR m_SwapChain;
 		std::vector<vk::Image>  m_Images;
 		std::vector<vk::ImageView> m_ImageViews;
+
+		//和Image数量一致
+		std::vector<vk::Framebuffer> m_FrameBuffers;
 	};
 
 

@@ -48,6 +48,10 @@ namespace VulKan {
 	}
 	SwapChain::~SwapChain()
 	{
+		for (auto& fram : m_FrameBuffers) {
+			Context::GetInstance().GetDevice().destroyFramebuffer(fram);
+		}
+
 		for (auto& view : m_ImageViews) {
 			Context::GetInstance().GetDevice().destroyImageView(view);
 		}
@@ -98,6 +102,19 @@ namespace VulKan {
 			}
 		}
 
+	}
+	void SwapChain::CreateFrameBuffers(uint32_t w,uint32_t h)
+	{
+		m_FrameBuffers.resize(m_Images.size());
+		for (int i = 0; i < m_FrameBuffers.size(); i++) {
+			vk::FramebufferCreateInfo createInfo;
+			createInfo.setAttachments(m_ImageViews[i])
+				.setWidth(w)
+				.setHeight(h)
+				.setRenderPass(Context::GetInstance().GetRenderProc().GetRenderPass())
+				.setLayers(1);
+			m_FrameBuffers[i] = Context::GetInstance().GetDevice().createFramebuffer(createInfo);
+		}
 	}
 	void SwapChain::GetImages()
 	{

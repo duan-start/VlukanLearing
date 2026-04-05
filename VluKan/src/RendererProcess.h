@@ -11,11 +11,13 @@ namespace VulKan {
 		//渲染pass
 		void InitRenderPass();
 
+		const vk::Pipeline& GetRenderPipeline() const { return m_Pipeline; }
+		const vk::RenderPass& GetRenderPass()const { return m_RenderPass; }
 		~RendererProcess();
 		RendererProcess() = default;
 	private:
 		//一个渲染管线
-		vk::Pipeline m_Pipline;
+		vk::Pipeline m_Pipeline;
 		//vao+uniform
 		vk::PipelineLayout m_Layout;
 

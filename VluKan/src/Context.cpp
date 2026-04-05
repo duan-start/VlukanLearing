@@ -9,7 +9,7 @@ namespace VulKan {
 		Instance.reset(new Context(func));
 	};
 	void Context::Quit() {
-
+		Context::GetInstance().GetDevice().waitIdle();
 	}
 	void Context::InitSwapChain(uint32_t w, uint32_t h)
 	{
@@ -18,6 +18,8 @@ namespace VulKan {
 	void Context::InitPipeline(uint32_t w, uint32_t h)
 	{
 		m_PipeProcess.reset(new RendererProcess());
+		m_PipeProcess->InitLayout();
+		m_PipeProcess->InitRenderPass();
 		m_PipeProcess->InitRenderPipline(w, h);
 	}
 	;

@@ -2,6 +2,7 @@
 #include "src/Context.h"
 #include "src/Swapchain.h"
 #include "src/Shader.h"
+#include  "src/Renderer.h"
 
 #include <string>
 #include <fstream>

@@ -32,8 +32,12 @@ namespace VulKan {
 		 vk::PhysicalDevice GetPhyDevice() { return m_phyDevice; };
 		 vk::Device GetDevice() { return m_device; }
 		 vk::SurfaceKHR GetSurface() { if (m_surface == VK_NULL_HANDLE)std::cout << "Wrong"; return m_surface; }
-
+		 SwapChain& GetSwapChain() { return  *m_swapChain; }
+		 RendererProcess& GetRenderProc() { return *m_PipeProcess; }
 		 QueueFmaile& GetQueueFamilyIndices() {return m_QueueFamilyInex;}
+		 vk::Queue& GetGraphicQueue() { return m_grahicQueue; }
+		 vk::Queue& GetPresentQueue() { return m_PresentQueue; }
+
 	private:
 		static std::unique_ptr<Context> Instance;
 		Context(CreatSurfaceFunc func);
@@ -51,9 +55,12 @@ namespace VulKan {
 		vk::PhysicalDevice m_phyDevice;
 		//创建交互的逻辑设备
 		vk::Device m_device;
+
+		//具体流水线
 		vk::Queue m_grahicQueue;
 		vk::Queue m_PresentQueue;
 		
+		//车间
 		QueueFmaile m_QueueFamilyInex;
 		//surface khr(渲染到窗口)[绑定vkimage 和窗口]
 		vk::SurfaceKHR m_surface;
