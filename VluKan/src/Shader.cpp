@@ -5,12 +5,14 @@
 namespace VulKan {  
    void Shader::Init(const std::string& vertexSrc, const std::string& fragSrc)  
    {  
-       // 对于单例模式只能用New,不能用make_unique  
+       // 对于单例模式只能用New,不能用make_unique
+       // （因为new是在该类中使用，make实际是传参在外部调用构造函数）
        Ins.reset(new Shader(vertexSrc, fragSrc));  
    }  
 
    void Shader::initSatge()
    {
+       //创建statge（类型，module和main）
        m_stage_.resize(2);
        m_stage_[0].setStage(vk::ShaderStageFlagBits::eVertex)
            .setModule(m_Shader["Vertex"])
@@ -27,11 +29,12 @@ namespace VulKan {
    VulKan::Shader::~Shader()
    {  
        const auto& device = Context::GetInstance().GetDevice();
+       //删除module
        device.destroyShaderModule(m_Shader["Vertex"]);
        device.destroyShaderModule(m_Shader["Frag"]);
    }  
 
-   // Constructor definition  
+   //初始化module
    Shader::Shader(const std::string& vertexSrc, const std::string& fragSrc) {  
        // Constructor implementation  
        vk::ShaderModuleCreateInfo createInfo;
@@ -45,7 +48,7 @@ namespace VulKan {
            .setPCode((uint32_t*)fragSrc.data());
        m_Shader["Frag"] = Context::GetInstance().GetDevice().createShaderModule(createInfo);
 
-
+       //创建statge
        initSatge();
 
    }  

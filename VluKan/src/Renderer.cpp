@@ -81,7 +81,7 @@ namespace VulKan {
 	void Renderer::InitCmdPool()
 	{
 		vk::CommandPoolCreateInfo createInfo{};
-		//√ø¥Œ√¸¡Óci
+		
 		createInfo.setFlags(vk::CommandPoolCreateFlagBits::eResetCommandBuffer);
 
 		cmdPool_ = Context::GetInstance().GetDevice().createCommandPool(createInfo);

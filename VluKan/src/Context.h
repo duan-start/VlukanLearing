@@ -29,9 +29,9 @@ namespace VulKan {
 			operator bool() { return GraphicIndex.has_value() && PresentIndex.has_value(); }
 		};
 
-		 vk::PhysicalDevice GetPhyDevice() { return m_phyDevice; };
-		 vk::Device GetDevice() { return m_device; }
-		 vk::SurfaceKHR GetSurface() { if (m_surface == VK_NULL_HANDLE)std::cout << "Wrong"; return m_surface; }
+		 vk::PhysicalDevice& GetPhyDevice() { return m_phyDevice; };
+		 vk::Device& GetDevice() { return m_device; }
+		 vk::SurfaceKHR& GetSurface() { if (m_surface == VK_NULL_HANDLE)std::cout << "Wrong"; return m_surface; }
 		 SwapChain& GetSwapChain() { return  *m_swapChain; }
 		 RendererProcess& GetRenderProc() { return *m_PipeProcess; }
 		 QueueFmaile& GetQueueFamilyIndices() {return m_QueueFamilyInex;}

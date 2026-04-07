@@ -2,6 +2,8 @@
 #include "src/Shader.h"
 #include "src/Context.h"
 namespace VulKan {
+
+	//初始化具体的管线
 	void RendererProcess::InitRenderPipline(uint32_t width,uint32_t height)
 	{
 		//setp表示设置指针，set表示设置普通数据成员
@@ -45,6 +47,8 @@ namespace VulKan {
 			.setPolygonMode(vk::PolygonMode::eFill)
 			//设置线框，只是对eline填充有效
 			.setLineWidth(1);
+		
+		//
 		createInfo.setPRasterizationState(&rasInfo);
 
 		//6. sample(对光栅化结果进行采样->)
@@ -70,6 +74,7 @@ namespace VulKan {
 				vk::ColorComponentFlagBits::eG |
 				vk::ColorComponentFlagBits::eB |
 				vk::ColorComponentFlagBits::eA);
+		
 		//不要用数学位运算（比如 XOR、AND、OR）来处理颜色，直接用普通的加减乘除混合。（只能二选一）
 		blend.setLogicOpEnable(false)
 			//把上面定义的单个附件规则绑定到全局状态里。（与Renderpass的attachment必须一一对应）
@@ -82,7 +87,7 @@ namespace VulKan {
 		createInfo.setRenderPass(m_RenderPass)
 			.setLayout(m_Layout);
 
-
+		//管线创建
 		auto result = Context::GetInstance().GetDevice().createGraphicsPipeline(nullptr,createInfo);
 
 		if (result.result != vk::Result::eSuccess) {
@@ -92,11 +97,12 @@ namespace VulKan {
 	}
 	void RendererProcess::InitLayout()
 	{
-		//Layout(Binding + Set)
-		//使用默认构造，即没有任何Uniform 数据
+		//Layout(Binding + Set)[由于绘制三角形，我们并不需要传入顶点数据]
 		vk::PipelineLayoutCreateInfo createInfo;
 		m_Layout = Context::GetInstance().GetDevice().createPipelineLayout(createInfo);
 	}
+
+	//RenderPass
 	void RendererProcess::InitRenderPass()
 	{
 		vk::RenderPassCreateInfo createInfo;

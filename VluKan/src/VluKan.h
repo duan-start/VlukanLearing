@@ -39,9 +39,29 @@ namespace Utils {
 
 namespace VulKan {
 
-	void Init() {
+	void Init(uint32_t WIDTH,uint32_t HEIGHT) {
+
+        //1.创建surface并进行Contxt初始化
+        
+        //2. 初始化交换链
+        VulKan::Context::GetInstance().InitSwapChain(WIDTH, HEIGHT);
+
+        //3.初始化shader
+        VulKan::Shader::Init(Utils::ReadfromFile("assets/vert.spv"), Utils::ReadfromFile("assets/frag.spv"));
+
+        //4. 创建pippline
+        VulKan::Context::GetInstance().InitPipeline(WIDTH, HEIGHT);
+
+        //5. 创建帧缓冲
+        VulKan::Context::GetInstance().GetSwapChain().CreateFrameBuffers(WIDTH, HEIGHT);
+
+        //6.渲染器和渲染命令的提交和配置
+        VulKan::Renderer::Init();
 		
 	};
 
-	void Quit() {};
+    //实际上都是栈上创建的的，都会进行销毁，但是通过这个可以控制销毁的顺序
+	void Quit() {
+        Context::Quit();
+    };
 }
